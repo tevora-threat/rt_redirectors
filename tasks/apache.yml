@@ -1,0 +1,59 @@
+
+---
+
+
+- name: create https virtual host files, one per servername
+  template: src=apache_sslvhost.conf.j2 dest=/etc/apache2/sites-available/rtssl_{{ item.servername }}.conf
+  with_items: "{{ vhosts }}"
+
+- name: create http virtual host files, one per servername
+  template: src=apache_vhost.conf.j2 dest=/etc/apache2/sites-available/rt_{{ item.servername }}.conf
+  with_items: "{{ vhosts }}"
+
+
+
+- name: Install Apache web server
+  apt: name=apache2 update_cache=yes state=latest
+- name: Install php
+  apt: name=php update_cache=yes state=latest
+
+- name: Install mod php
+  apt: name=libapache2-mod-php update_cache=yes state=latest
+
+
+- apache2_module: name=headers state=present
+- apache2_module: name=rewrite state=present
+- apache2_module: name=proxy state=present
+- apache2_module: name=ssl state=present
+- apache2_module: name=proxy_http state=present
+- apache2_module: name=cache state=absent
+- apache2_module: name=php7.0 state=present
+- apache2_module: name=deflate state=absent force=yes
+
+
+- name: copy hop folder
+  copy:
+    src: "{{ hop_dir }}/"
+    dest: /var/www/html/
+  when: hop_dir is defined
+
+- name: disable shite sites
+  command: a2dissite *
+
+
+- name: enable the http sites
+  command: a2ensite rt_{{ item.servername }}
+  with_items: "{{ vhosts }}"
+  notify: 
+  - restart apache2
+
+- name: enable the https sites
+  command: a2ensite rtssl_{{ item.servername }}
+  with_items: "{{ vhosts }}"
+  notify: 
+  - restart apache2
+
+
+
+
+

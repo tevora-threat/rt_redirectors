@@ -1,0 +1,17 @@
+---
+- name: Install letsencrypt
+  apt: name=letsencrypt update_cache=yes state=latest
+
+- name: add repository for ubuntu
+  apt_repository: 
+    repo: 'ppa:certbot/certbot' 
+    state: present
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Install python-certbot-apache
+  apt: name=python-certbot-apache update_cache=yes state=latest
+
+- name: run letsencrypt
+  command: letsencrypt --apache --agree-tos --email {{le_email}} --expand -n -q -d {{ vhosts|map(attribute='servername')| join(',') |quote}}
+  ignore_errors: yes
+
