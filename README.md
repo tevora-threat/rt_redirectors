@@ -55,7 +55,8 @@ Breakdown of the example:
    This specifies the hosts the playbook will execute on.
    For this playbook to execute correclty, an inventory file must be used with the hostname or ip of engigmatic emu defined  
    example 
-   ```[EnigmaticEmu]
+   ```
+   [EnigmaticEmu]
 123.456.789.123'
 ```
  
