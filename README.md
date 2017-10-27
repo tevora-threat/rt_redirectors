@@ -106,6 +106,7 @@ Notice in the config how there are multiple vhosts, and each one can use one or 
  We create one configuration file per vhost is that Letsencrypt, specifically the certbot-apache component, does not support more than one vhost per config file. Because of this we will be provisioning multiple configuration files to the server. 
  
 ##Running the Playbook
+
 To run the role. Create your playbook in the form of the example we covered and run `ansible-playbook -i <your_hosts_file> <your_playbook>`. Ensure that this roles is in the roles directory in the same path of your playbook, and your hop and/or config files are placed correctly.  Your directory layout should look like: 
 ```
 ├── my_playbook.yml
