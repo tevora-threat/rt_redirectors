@@ -63,7 +63,7 @@ Breakdown of the example:
   * this specifies what user to logon to the remote server with, ansible performs all its configurations over ssh
   * Change this to whatever user you want to use
   * if you need to sudo, may need to add `become: true` and call ansible-playbook with `--ask-become-pass`
- * `pre_tasks:` 
+* `pre_tasks:` 
    * these lines install python 2 if it is not there and run gather facts
  * `  tasks: ` Now we've reached the good part, our playbook tasks! 
  * `- include_role:`
@@ -92,6 +92,6 @@ Breakdown of the example:
 
 We formatted this config mostly in JSON (YAML is a superset of JSON) but you can format it however you like as long as it matches up. 
 
-Notice in the config how there are multiple vhosts, and each one can use one or more methods of specifying thow it is injecting into the configuration templates 
+Notice in the config how there are multiple vhosts, and each one can use one or more methods of specifying how it is injecting into the configuration templates 
 
  We create one configuration file per vhost is that Letsencrypt, specifically the certbot-apache component, does not support more than one vhost per config file. Because of this we will be provisioning multiple configuration files to the server. 
