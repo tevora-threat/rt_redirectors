@@ -54,12 +54,7 @@ Breakdown of the example:
  * `- hosts: EnigmaticEmu`
    This specifies the hosts the playbook will execute on.
    For this playbook to execute correclty, an inventory file must be used with the hostname or ip of engigmatic emu defined  
-   example 
-   ```
-   [EnigmaticEmu]
-123.456.789.123'
-```
- 
+   
  *   `gather_facts: False`
    The ansible gather facts task breaks on newer versions of ubuntu with no python 2 installed
    we disable gather facts,  so we can make sure to install python 2 first. This is just some compatability bootstrap stuff
