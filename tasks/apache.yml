@@ -1,6 +1,8 @@
 
 ---
 
+- name: Install Apache web server
+  apt: name=apache2 update_cache=yes state=latest
 
 - name: create https virtual host files, one per servername
   template: src=apache_sslvhost.conf.j2 dest=/etc/apache2/sites-available/rtssl_{{ item.servername }}.conf
@@ -12,13 +14,17 @@
 
 
 
-- name: Install Apache web server
-  apt: name=apache2 update_cache=yes state=latest
+
 - name: Install php
   apt: name=php update_cache=yes state=latest
+  ignore_errors: true
+
 
 - name: Install mod php
   apt: name=libapache2-mod-php update_cache=yes state=latest
+  ignore_errors: true
+
+
 
 
 - apache2_module: name=headers state=present
@@ -54,6 +60,6 @@
   - restart apache2
 
 
-
+- service: name=apache2 state=restarted
 
 

@@ -12,6 +12,6 @@
   apt: name=python-certbot-apache update_cache=yes state=latest
 
 - name: run letsencrypt
-  command: letsencrypt --apache --agree-tos --email {{le_email}} --expand -n -q -d {{ vhosts|map(attribute='servername')| join(',') |quote}}
+  command: certbot --installer apache --authenticator standalone --pre-hook "service apache2 stop"  --post-hook "service apache2 start" --agree-tos --email {{le_email}} --expand -n -q -d {{ vhosts|map(attribute='servername')| join(',') |quote}}
   ignore_errors: yes
 

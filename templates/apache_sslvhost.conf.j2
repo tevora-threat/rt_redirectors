@@ -47,6 +47,19 @@ ErrorLog ${APACHE_LOG_DIR}/error.log
  #Include conf-available/serve-cgi-bin.conf
 
 
+{% if  item.config_files is defined %}
+{% for config_file in item.config_files %}
+	{{ lookup('file', config_file) }} 
+{% endfor %}
+{% endif %}
+
+
+{% if  item.pre_configs is defined %}
+{% for config in item.pre_configs %}
+{{ config}}
+{% endfor %}
+{% endif %}
+
 {% if  item.c2filters is defined %}
 {% for c in item.c2filters %}
 	RewriteCond %{REQUEST_URI} {{ c.rewritefilter }}
@@ -56,16 +69,12 @@ ErrorLog ${APACHE_LOG_DIR}/error.log
 
 {% if  item.configs is defined %}
 {% for config in item.configs %}
-	{{ config}}
+{{ config}}
 {% endfor %}
 {% endif %}
 
 
-{% if  item.config_files is defined %}
-{% for config_file in item.config_files %}
-	{{ lookup('file', config_file) }} 
-{% endfor %}
-{% endif %}
+
 
 </VirtualHost>
 
